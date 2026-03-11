@@ -1,0 +1,18 @@
+# Common directory枚举字典
+# 巻加新字典文件...
+admin
+admin
+administrator
+administrator
+backup
+backup
+config
+config
+database
+data
+login
+private
+private
+reports
+reports
+tmp

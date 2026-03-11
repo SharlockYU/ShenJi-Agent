@@ -1,0 +1,108 @@
+# 神机 (ShenJi) 配置文件
+
+# Agent 配置
+agent:
+  name: "神机 (ShenJi)"
+  version: "2.0.0"
+  codename: "ShenJi"
+  default_mode: "interactive"  # interactive | auto
+
+# LLM 配置
+llm:
+  provider: "openai"  # openai | ollama
+  model: "gpt-4-turbo-preview"
+  temperature: 0
+  max_tokens: 4096
+
+# OpenAI 配置
+openai:
+  api_key: "${OPENAI_API_KEY}"  # 从环境变量读取
+  base_url: null  # 可选，用于代理
+
+# Ollama 配置 (本地模型)
+ollama:
+  base_url: "http://localhost:11434"
+  model: "llama2"
+
+# 知识库配置
+knowledge_base:
+  enabled: true
+  source: "payloads_all_the_things"
+  vector_store:
+    type: "chromadb"
+    persist_directory: "./knowledge_base/vector_store"
+  embedding:
+    model: "text-embedding-3-small"
+  retrieval:
+    top_k: 5
+    score_threshold: 0.7
+
+# 工具配置
+tools:
+  nmap:
+    enabled: true
+    path: "nmap"
+    default_options: "-sV -sC"
+    timeout: 300
+  nikto:
+    enabled: true
+    path: "nikto"
+    default_options: "-Format txt"
+    timeout: 600
+  gobuster:
+    enabled: true
+    path: "gobuster"
+    wordlist: "./data/wordlists/common.txt"
+    timeout: 600
+  nuclei:
+    enabled: true
+    path: "nuclei"
+    templates: "default"
+    timeout: 600
+  sqlmap:
+    enabled: true
+    path: "sqlmap"
+    timeout: 900
+  hydra:
+    enabled: true
+    path: "hydra"
+    timeout: 1800
+
+# 人工确认配置
+approval:
+  enabled: true
+  auto_mode_threshold: "low"  # low | medium | high | critical
+  show_details_default: true
+
+# 安全配置
+security:
+  check_commands: true
+  blocked_commands:
+    - "rm -rf"
+    - "mkfs"
+    - "dd if="
+  high_risk_patterns:
+    - "chmod 777"
+    - "chown root"
+
+# 日志配置
+logging:
+  level: "INFO"
+  format: "{time:YYYY-MM-DD HH:mm:ss} | {level} | {message}"
+  file: "./output/logs/pentest_agent.log"
+  rotation: "10 MB"
+  retention: "7 days"
+
+# 输出配置
+output:
+  directory: "./output"
+  scans_directory: "./output/scans"
+  reports_directory: "./output/reports"
+  save_raw_output: true
+
+# 报告配置
+report:
+  format: "html"  # html | markdown | pdf
+  template: "default"
+  include_evidence: true
+  include_recommendations: true
